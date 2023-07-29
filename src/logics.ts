@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Product } from "./interfaces";
-import { market } from "./database";
+import { products } from "./database";
 
 let id = 1;
 
@@ -17,26 +17,26 @@ const createProduct = (req: Request, res: Response): Response => {
     expirationDate,
   };
 
-  market.push(newProduct);
+  products.push(newProduct);
 
   return res.status(201).json(newProduct);
 };
 
 const readProducts = (req: Request, res: Response): Response => {
-  return res.status(200).json({ total: totalPrice(market), market });
+  return res.status(200).json({ total: totalPrice(products), products });
 };
 
 const readProductsById = (req: Request, res: Response): Response => {
   const { productIndex } = res.locals;
 
-  return res.status(200).json(market[productIndex]);
+  return res.status(200).json(products[productIndex]);
 };
 
 const updateProduct = (req: Request, res: Response): Response => {
   const { productIndex } = res.locals;
 
-  const updatedProduct = (market[productIndex] = {
-    ...market[productIndex],
+  const updatedProduct = (products[productIndex] = {
+    ...products[productIndex],
     ...req.body,
   });
 
@@ -46,7 +46,7 @@ const updateProduct = (req: Request, res: Response): Response => {
 const deleteProduct = (req: Request, res: Response): Response => {
   const { productIndex } = res.locals;
 
-  market.splice(productIndex, 1);
+  products.splice(productIndex, 1);
 
   return res.status(204).json();
 };
